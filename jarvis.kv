@@ -1,0 +1,42 @@
+# jarvis.kv
+
+# A regra raiz DEVE corresponder ao nome da classe que você retorna no método build()
+# Esta é a conexão crucial com o seu arquivo main.py
+<JarvisLayout>:
+    orientation: 'vertical'
+    padding: dp(20)
+    spacing: dp(20)
+    canvas.before:
+        Color:
+            rgba: 0.1, 0.1, 0.1, 1  # Fundo cinza escuro
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    # 1. GIF Principal do Jarvis
+    Image:
+        id: gif_jarvis # Pode usar o id que preferir, desde que não o acesse no python
+        # A fonte agora usa a variável do seu app Python
+        source: app.jarvis_gif_path
+        anim_delay: 0.08
+        size_hint_y: 0.6 # Ocupa 60% da altura vertical
+
+    # 2. Animação da Onda de Voz
+    Image:
+        id: onda_sonora
+        # A fonte agora usa a outra variável do seu app Python
+        source: app.onda_sonora_gif_path
+        anim_delay: -1
+        opacity: 0 # Começa invisível
+        size_hint_y: 0.2 # Ocupa 20% da altura
+
+    # 3. Botão do Microfone
+    Button:
+        id: mic_button
+        text: 'Toque para Falar'
+        font_size: '20sp'
+        size_hint_y: 0.2 # Ocupa 20% da altura
+        background_color: 0.2, 0.6, 0.8, 1 # Cor azul
+        background_normal: '' # Necessário para a cor de fundo funcionar
+        on_press: app.toggle_listening() # Chama a função no código Python
+
